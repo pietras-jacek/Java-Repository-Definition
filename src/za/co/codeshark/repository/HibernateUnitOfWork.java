@@ -20,8 +20,11 @@ public class HibernateUnitOfWork implements UnitOfWork {
     private EntityManager entityManager;
     
     public HibernateUnitOfWork(EntityManagerFactory entityManagerFactory){
+        if(entityManagerFactory  == null)
+            throw new RuntimeException("HibernateUnitOfWork.const : EntityManagerFactory cannot be null");
+        
        this.entityManagerFactory = entityManagerFactory;
-       this.entityManager = entityManagerFactory.createEntityManager();
+       this.entityManager = this.entityManagerFactory.createEntityManager();
        this.entityManager.setFlushMode(FlushModeType.AUTO);
        this.transaction = entityManager.getTransaction();
        this.transaction.begin();
